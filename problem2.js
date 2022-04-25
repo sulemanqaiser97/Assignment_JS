@@ -1,21 +1,19 @@
-const fetch = require('node-fetch');
+const fetch = require("node-fetch");
 
-Array.prototype.populate = function(){
-
-    this.forEach((element,index) => {
-
-        fetch(element)
-        .then(response => this[index] = response)
-        .catch(err => console.log ("Unable to fetch " + element + " " + err));
-    });
-
-
-}
+Array.prototype.populate = async function () {
+  for (index = 0; index < this.length; index++) {
+    let response = await fetch(this[index]);
+    if (response.ok) {
+      array[index] = response;
+    } else {
+      console.error("Unable to Fetch" + this[index]);
+    }
+  }
+  return;
+};
 
 const array = ["https://www.google.com", "https://www.facebook.com"];
-
-array.populate();
-
-setTimeout(() => {
-    console.log(array)
-}, 5000);
+(async () => {
+  await array.populate();
+  console.log(array);
+})();
